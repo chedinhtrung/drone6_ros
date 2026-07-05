@@ -35,6 +35,38 @@ install(TARGETS
 )
 #end 
 
+# camera calibration capture
+add_executable(cam_calibrate_capture
+    src/calibration/cam_calibrate_capture.cpp
+)
+ament_target_dependencies(cam_calibrate_capture
+    rclcpp
+)
+target_link_libraries(cam_calibrate_capture
+    ${OpenCV_LIBS}
+)
+install(TARGETS
+    cam_calibrate_capture
+    DESTINATION lib/${PROJECT_NAME}
+)           
+# end
+
+# camera calibration
+add_executable(cam_calibrate
+    src/calibration/cam_calibrate.cpp
+)
+ament_target_dependencies(cam_calibrate
+    rclcpp
+)
+target_link_libraries(cam_calibrate
+    ${OpenCV_LIBS}
+)
+install(TARGETS
+    cam_calibrate
+    DESTINATION lib/${PROJECT_NAME}
+)           
+# end
+
 # test opencv installation with gstreamer support by opening udp stream from drone
 add_executable(stream_viewer
     test/test_opencv.cpp

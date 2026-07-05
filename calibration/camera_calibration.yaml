@@ -1,0 +1,21 @@
+%YAML:1.0
+---
+name: "OV5647"
+FOV: 120
+
+image_width: 1280
+image_height: 720
+camera_matrix: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 8.1398983441099790e+02, 0., 6.5211083623198442e+02, 0.,
+       8.1381088922509002e+02, 3.4601715103126810e+02, 0., 0., 1. ]
+distortion_coefficients: !!opencv-matrix
+   rows: 1
+   cols: 5
+   dt: d
+   data: [ -1.2402749745043375e-01, 1.8701772094465804e-01,
+       -4.6390874691602021e-04, -4.3620227729641078e-04,
+       -1.2931351572888106e-01 ]
+rms_reprojection_error: 1.8724513117147729e-01
