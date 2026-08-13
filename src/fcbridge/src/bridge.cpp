@@ -16,7 +16,7 @@ using namespace std::chrono_literals;
 class BridgeNode : public rclcpp::Node
 {
 public:
-  BridgeNode() : Node("fake_odom_node")
+  BridgeNode() : Node("fcbridge")
   {
     msg_parser_ = RPiFrameParser();
     pub_ = create_publisher<nav_msgs::msg::Odometry>("/odom", 10);

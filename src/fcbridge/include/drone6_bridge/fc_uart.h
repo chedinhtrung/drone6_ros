@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#define PI_UART "/dev/serial0"
+#define PI_UART "/dev/ttyAS4"
 
 class FC_UART
 {
