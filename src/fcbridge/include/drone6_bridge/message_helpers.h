@@ -21,6 +21,13 @@ struct NominalState {
     Vec3 wb;
 };
 
+struct ImuData
+{
+    Vec3 gyro;
+    Vec3 accel;
+    uint32_t timestamp;
+};
+
 enum class RPiMessageType : uint8_t {
     STATE = 0x01,
     LABELED_SCALAR = 0x02,
