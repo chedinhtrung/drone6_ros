@@ -21,7 +21,7 @@ public:
     msg_parser_ = RPiFrameParser();
     pub_ = create_publisher<nav_msgs::msg::Odometry>("/odom", 10);
     tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
-    timer_ = create_wall_timer(10ms, [this]()
+    timer_ = create_wall_timer(1ms, [this]()
     {
       // read from the UART port
       uint8_t new_byte;

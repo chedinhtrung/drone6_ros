@@ -53,10 +53,10 @@ public:
         tty.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL);
         tty.c_oflag &= ~OPOST;
         tty.c_oflag &= ~ONLCR;
-        tty.c_cc[VTIME] = 10;
+        tty.c_cc[VTIME] = 0;
         tty.c_cc[VMIN] = 0;
-        cfsetispeed(&tty, B115200);
-        cfsetospeed(&tty, B115200);
+        cfsetispeed(&tty, B500000);
+        cfsetospeed(&tty, B500000);
         if (tcsetattr(serial_port, TCSANOW, &tty) != 0)
         {
             printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
