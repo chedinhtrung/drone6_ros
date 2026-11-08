@@ -7,6 +7,9 @@
 #include <sstream>
 #include <string>
 
+// opens a network camera with OpenCV GSTREAMER capture and save to directory 
+// meant to be run on work station, not the drone
+
 int main(int argc, char **argv)
 {
     rclcpp::init(argc, argv);

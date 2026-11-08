@@ -55,8 +55,8 @@ public:
         tty.c_oflag &= ~ONLCR;
         tty.c_cc[VTIME] = 10;
         tty.c_cc[VMIN] = 0;
-        cfsetispeed(&tty, B460800);
-        cfsetospeed(&tty, B460800);
+        cfsetispeed(&tty, B115200);
+        cfsetospeed(&tty, B115200);
         if (tcsetattr(serial_port, TCSANOW, &tty) != 0)
         {
             printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
