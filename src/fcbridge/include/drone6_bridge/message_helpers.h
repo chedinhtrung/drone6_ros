@@ -1,8 +1,14 @@
 #ifndef MESSAGE_HELPERS_H
 #define MESSAGE_HELPERS_H
 
-#include <stdint.h>
-#include <string.h>
+/*
+
+message packing and parsing interface to talk to ROS flight computer 
+
+*/
+
+#include <cstdint>
+#include <cstring>
 
 #ifdef BUILT_ON_PI
 struct Vec3 { float x, y, z; };
@@ -21,11 +27,13 @@ enum class RPiMessageType : uint8_t {
     LABELED_VEC3 = 0x03,
     STRING = 0x04,
     COMMAND = 0x05,
+    RAW_IMU = 0x06
 };
 #else
 
 #include "eskf.h"
 #include "devices/rpi.h"
+#include "devices/imu.h"
 
 #endif
 
@@ -63,7 +71,15 @@ struct __attribute__((packed)) ESKFStatePayload {
     float h_terrain_m = 0.0f;
 };
 
+struct IMUPayload {
+    Vec3 accel; 
+    Vec3 gyro;
+    uint32_t timestamp;
+};
+
 static_assert(sizeof(ESKFStatePayload) == 46, "ESKFStatePayload must stay tightly packed");
+
+static_assert(sizeof(IMUPayload) == 28, "ESKFStatePayload must stay tightly packed");
 
 struct __attribute__((packed)) LabelledVec3Payload {
     int16_t x_mm = 0;
@@ -182,11 +198,6 @@ inline float unpack_h_terrain_m(const ESKFStatePayload &payload)
     return payload.h_terrain_m;
 }
 
-inline const uint8_t *payload_bytes(const ESKFStatePayload &payload)
-{
-    return reinterpret_cast<const uint8_t *>(&payload);
-}
-
 inline LabelledVec3Payload pack(const Vec3 &value, const char *label)
 {
     LabelledVec3Payload payload{};
@@ -211,14 +222,31 @@ inline Vec3 unpack(const LabelledVec3Payload &payload)
         dequantize_signed(payload.z_mm, 1000.0f)};
 }
 
-inline const char *unpack_label(const LabelledVec3Payload &payload)
+inline const char* unpack_label(const LabelledVec3Payload &payload)
 {
     return payload.label;
 }
 
-inline const uint8_t *payload_bytes(const LabelledVec3Payload &payload)
+template <typename PayloadType>
+inline const uint8_t *payload_bytes(const PayloadType &payload)
 {
     return reinterpret_cast<const uint8_t *>(&payload);
+}
+
+inline IMUPayload pack(const ImuData &imudata){
+    IMUPayload payload;
+    payload.accel = imudata.accel; 
+    payload.gyro = imudata.gyro; 
+    payload.timestamp = imudata.timestamp;
+    return payload;
+}
+
+inline ImuData unpack(const IMUPayload &payload){
+    ImuData data;
+    data.accel = payload.accel; 
+    data.gyro = payload.gyro; 
+    data.timestamp = payload.timestamp;
+    return data;
 }
 
 struct RPiFrameParser {

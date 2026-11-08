@@ -22,6 +22,8 @@ public:
     FC_UART &operator=(const FC_UART &) = delete;
     FC_UART(const char *port = PI_UART)
     {
+
+        // Crazy linux uart setup from https://medium.com/geekculture/raspberry-pi-c-libraries-for-working-with-i2c-spi-and-uart-4677f401b584
         serial_port = open(port, O_RDWR);
         if (serial_port == -1)
         {
